@@ -34,7 +34,11 @@ class Autoloader
             'mod_profil/',
             'mod_profil/controleur/',
             'mod_profil/modele/',
-            'mod_profil/vue/'
+            'mod_profil/vue/',
+            'mod_commande/',
+            'mod_commande/controleur/',
+            'mod_commande/modele/',
+            'mod_commande/vue/'
         );
 
         foreach ($repertoires as $repertoire) {

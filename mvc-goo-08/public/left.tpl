@@ -39,13 +39,19 @@
 
                     <h3 class="menu-title">COMMANDES</h3><!-- /.menu-title -->
 
-                    <li class="dropdown">
-                        <a href="#A VOUS D'ECRIRE LE LIEN"> <i class="menu-icon fa fa-tasks"></i>Historique</a>
-                         
+                    <li class="menu-item-has-children dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-tasks"></i>Historique</a>
+                        <ul class="sub-menu children dropdown-menu">
+                            <li><i class="menu-icon fa fa-tasks"></i><a href="index.php?gestion=commande">Toutes les commandes</a></li>
+                            <li><i class="menu-icon fa fa-tasks"></i><a href="index.php?gestion=commande&action=listeNonValide">Commandes non validées</a></li>
+                            <li><i class="menu-icon fa fa-tasks"></i><a href="index.php?gestion=commande&action=listeAnnulee">Commandes annulées</a></li>
+                        </ul>
+                    </li>
+
                         
                     </li>
                     <li>
-                        <a href="#"> <i class="menu-icon ti-email"></i>Passer une commande </a>
+                        <a href="index.php?gestion=commande&action=form_ajouter"> <i class="menu-icon ti-email"></i>Passer une commande </a>
                     </li>
                    
                 </ul>

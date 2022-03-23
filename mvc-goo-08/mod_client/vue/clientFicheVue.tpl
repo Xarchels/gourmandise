@@ -94,40 +94,40 @@
                                 <!-- PLACER LE FORMULAIRE EN CONSULTATION -->
                                 <input type="hidden" name="gestion" value="client">
                                 <input type="hidden" name="action" value="{$action}">
-                                    {if $action neq 'ajouter'}
-                                        <div class="form-group">
-                                            <label class="form-control-label">Code Client :</label>
-                                            <input class="form-control" name="codec" value="{$unClient->getCodec()}"
-                                                   readonly>
-                                        </div>
-                                    {/if}
+                                {if $action neq 'ajouter'}
                                     <div class="form-group">
-                                        <label class="form-control-label">Prénom Nom :</label>
-                                        <input class="form-control" type="text" name="nom" value="{$unClient->getNom()}"
-                                                {$readonly}>
+                                        <label class="form-control-label">Code Client :</label>
+                                        <input class="form-control" name="codec" value="{$unClient->getCodec()}"
+                                               readonly>
                                     </div>
-                                    <div class="form-group">
-                                        <label class="form-control-label">Adresse :</label>
-                                        <input class="form-control" type="text" name="adresse"
-                                               value="{$unClient->getAdresse()}"
-                                                {$readonly}>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-control-label">Code postal :</label>
-                                        <input class="form-control" type="text" name="cp" value="{$unClient->getCp()}"
-                                                {$readonly}>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-control-label">Ville :</label>
-                                        <input class="form-control" type="text" name="ville"
-                                               value="{$unClient->getVille()}" {$readonly}>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-control-label">Téléphone :</label>
-                                        <input class="form-control" type="text" name="telephone"
-                                               value="{$unClient->getTelephone()}"
-                                                {$readonly}>
-                                    </div>
+                                {/if}
+                                <div class="form-group">
+                                    <label class="form-control-label">Prénom Nom :</label>
+                                    <input class="form-control" type="text" name="nom" value="{$unClient->getNom()}"
+                                            {$readonly}>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-control-label">Adresse :</label>
+                                    <input class="form-control" type="text" name="adresse"
+                                           value="{$unClient->getAdresse()}"
+                                            {$readonly}>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-control-label">Code postal :</label>
+                                    <input class="form-control" type="text" name="cp" value="{$unClient->getCp()}"
+                                            {$readonly}>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-control-label">Ville :</label>
+                                    <input class="form-control" type="text" name="ville"
+                                           value="{$unClient->getVille()}" {$readonly}>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-control-label">Téléphone :</label>
+                                    <input class="form-control" type="text" name="telephone"
+                                           value="{$unClient->getTelephone()}"
+                                            {$readonly}>
+                                </div>
                                 <div>
                                     <input class="btn btn-submit" type="button" name="btn_retour" value="Retour"
                                            onclick="location.href='index.php?gestion=client'">
@@ -141,28 +141,30 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="card">
+                {if $action neq 'ajouter'}
+                    <div class="col-md-6">
                         <div class="card">
-                            <div class="card-header">
-                                <strong class="card-title">Statistiques</strong>
-                            </div>
-                            <div class="card-body">
-                                <p class="card-text">CA réalisé :</p>
-                                <p class="card-text"> <strong>{$unClient->getCA()}</strong> €</p>
-                                <br>
-                                <p class="card-text">Pourcentage du CA :</p>
-                                <p class="card-text"> <strong>{$unClient->getPourcCA()}</strong> %</p>
-                                <br>
-                                <p class="card-text">Ses meilleurs achats :</p>
-                                {foreach from=$unClient->getListeProduit() item = produit}
-                                    <p class="card-text"> - <strong>{$produit['designation']}</strong> : <strong>{$produit['nbAchat']}</strong></p>
-                                {/foreach}
-
+                            <div class="card">
+                                <div class="card-header">
+                                    <strong class="card-title">Statistiques</strong>
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text">CA réalisé :</p>
+                                    <p class="card-text"><strong>{$unClient->getCA()}</strong> €</p>
+                                    <br>
+                                    <p class="card-text">Pourcentage du CA :</p>
+                                    <p class="card-text"><strong>{$unClient->getPourcCA()}</strong> %</p>
+                                    <br>
+                                    <p class="card-text">Ses meilleurs achats :</p>
+                                    {foreach from=$unClient->getListeProduit() item = produit}
+                                        <p class="card-text"> - <strong>{$produit['designation']}</strong> :
+                                            <strong>{$produit['nbAchat']}</strong></p>
+                                    {/foreach}
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                {/if}
             </div><!-- .animated -->
         </div><!-- .content -->
 

@@ -93,46 +93,49 @@
                             <form action="index.php" method="POST">
                                 <input type="hidden" name="gestion" value="produit">
                                 <input type="hidden" name="action" value="{$action}">
-                                    {if $action neq 'ajouter'}
-                                        <div class="form-group">
-                                            <label class="form-control-label">Reference :</label>
-                                            <input class="form-control" name="reference" value="{$unProduit->getReference()}"
-                                                   readonly>
-                                        </div>
-                                    {/if}
+                                {if $action neq 'ajouter'}
                                     <div class="form-group">
-                                        <label class="form-control-label">Désignation :</label>
-                                        <input class="form-control" type="text" name="designation" value="{$unProduit->getDesignation()}"
-                                                {$readonly}>
+                                        <label class="form-control-label">Reference :</label>
+                                        <input class="form-control" name="reference"
+                                               value="{$unProduit->getReference()}"
+                                               readonly>
                                     </div>
-                                    <div class="form-group">
-                                        <label class="form-control-label">Quantité :</label>
-                                        <input class="form-control" type="text" name="quantite"
-                                               value="{$unProduit->getQuantite()}"
-                                                {$readonly}>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-control-label">descriptif :</label>
-                                        <input class="form-control" type="text" name="descriptif" value="{$unProduit->getDescriptif()}"
-                                                {$readonly}>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-control-label">Prix unitaire HT :</label>
-                                        <input class="form-control" type="text" name="prix_unitaire_HT"
-                                               value="{$unProduit->getPrix_unitaire_HT()}" {$readonly}>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-control-label">Stock :</label>
-                                        <input class="form-control" type="text" name="stock"
-                                               value="{$unProduit->getStock()}"
-                                                {$readonly}>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-control-label">Poids pièce :</label>
-                                        <input class="form-control" type="text" name="poids_piece"
-                                               value="{$unProduit->getPoids_piece()}"
-                                                {$readonly}>
-                                    </div>
+                                {/if}
+                                <div class="form-group">
+                                    <label class="form-control-label">Désignation :</label>
+                                    <input class="form-control" type="text" name="designation"
+                                           value="{$unProduit->getDesignation()}"
+                                            {$readonly}>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-control-label">Quantité :</label>
+                                    <input class="form-control" type="text" name="quantite"
+                                           value="{$unProduit->getQuantite()}"
+                                            {$readonly}>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-control-label">descriptif :</label>
+                                    <input class="form-control" type="text" name="descriptif"
+                                           value="{$unProduit->getDescriptif()}"
+                                            {$readonly}>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-control-label">Prix unitaire HT :</label>
+                                    <input class="form-control" type="text" name="prix_unitaire_HT"
+                                           value="{$unProduit->getPrix_unitaire_HT()}" {$readonly}>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-control-label">Stock :</label>
+                                    <input class="form-control" type="text" name="stock"
+                                           value="{$unProduit->getStock()}"
+                                            {$readonly}>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-control-label">Poids pièce :</label>
+                                    <input class="form-control" type="text" name="poids_piece"
+                                           value="{$unProduit->getPoids_piece()}"
+                                            {$readonly}>
+                                </div>
                                 <div>
                                     <input class="btn btn-submit" type="button" name="btn_retour" value="Retour"
                                            onclick="location.href='index.php?gestion=produit'">
@@ -146,22 +149,26 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="card">
+                {if $action neq 'ajouter'}
+                    <div class="col-md-6">
                         <div class="card">
-                            <div class="card-header">
-                                <strong class="card-title">Statistiques et informations</strong>
-                            </div>
-                            <div class="card-body">
-                                <p class="card-text">Prix au kilogramme :</p>
-                                <p class="card-text"> <strong>{$unProduit->getPrixKilo()}</strong> €</p>
-                                <br>
-                                <p class="card-text">Classement :</p>
-                                <p class="card-text">L'article <strong>{$unProduit->getDesignation()}</strong> est actuellement en position <strong>{$unProduit->getPlace()}</strong> parmi les meilleures ventes</p>
+                            <div class="card">
+                                <div class="card-header">
+                                    <strong class="card-title">Statistiques et informations</strong>
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text">Prix au kilogramme :</p>
+                                    <p class="card-text"><strong>{$unProduit->getPrixKilo()}</strong> €</p>
+                                    <br>
+                                    <p class="card-text">Classement :</p>
+                                    <p class="card-text">L'article <strong>{$unProduit->getDesignation()}</strong> est
+                                        actuellement en position <strong>{$unProduit->getPlace()}</strong> parmi les
+                                        meilleures ventes</p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                {/if}
             </div><!-- .animated -->
         </div><!-- .content -->
 
