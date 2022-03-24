@@ -76,146 +76,132 @@
         </div>
     </div>
 
+    <div {if CommandeTable::getMessageErreur() neq ""} class="alert alert-danger" {elseif CommandeTable::getMessageSucces() neq ""} class="alert alert-success" {/if}>
+        {if CommandeTable::getMessageErreur() eq ""}
+            {CommandeTable::getMessageSucces()}
+        {/if}
+        {CommandeTable::getMessageErreur()}
+    </div>
 
     <div class="content mt-3">
         <div class="animated fadeIn">
 
             <div class="row">
+                <div class="col-md-12">
 
-                <form action="index.php" method="POST">
-                    <input type="hidden" name="gestion" value="commande">
-                    <input type="hidden" name="action" value="">
-                    <div class="col-md-12">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <strong class="card-title">{$titrePage}</strong>
+                            </div>
 
-                        <div class="col-md-6">
-                            <div class="card">
-                                <div class="card-header">
-                                    <strong class="card-title">{$titrePage}</strong>
-                                </div>
+                            <div class="card-body card-block">
 
-                                <div class="card-body card-block">
-
-                                    <div class="form-group">Numéro : {$uneCommande->getNumero()}</div>
-                                    <div class="form-group">Vendeur : {$uneCommande->getVendeurPrenom()} {$uneCommande->getVendeurNom()}</div>
-                                    <div class="form-group">Code Client : {$uneCommande->getCodec()}</div>
-                                    <div class="form-group">Client : {$uneCommande->getClient()}</div>
+                                <div class="form-group">Numéro : {$uneCommande->getNumero()}</div>
+                                <div class="form-group">Vendeur
+                                    : {$uneCommande->getVendeurPrenom()} {$uneCommande->getVendeurNom()}</div>
+                                <div class="form-group">Code Client : {$uneCommande->getCodec()}</div>
+                                <div class="form-group">Client : {$uneCommande->getClient()}</div>
 
 
-                                </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                    </div>
+                    <div class="col-md-6">
 
-                            <div class="card">
-                                <div class="card-header"><strong>Etat de la commande</strong></div>
-                                <div class="card-body card-block">
+                        <div class="card">
+                            <div class="card-header"><strong>Etat de la commande</strong></div>
+                            <div class="card-body card-block">
+                                <div class="form-group">Date de commande :
+                                    {$uneCommande->getDate_commande()->format('d/m/Y')}</div>
+                                {if $action == 'modifier' || $action == 'form_modifier'}
+                                    <form action="index.php" method="post">
+                                        <input type="hidden" name="gestion" value="commande">
+                                        <input type="hidden" name="action" value="maj_date">
+                                        <input type="hidden" name="numero" value="{$uneCommande->getNumero()}">
+                                        <input type="hidden" name="date_commande" value="{$uneCommande->getDate_commande()->format('Y-m-d')}">
+                                        <div class="form-group">
+                                            Date de livraison :
+                                            <input type="date" name="date_livraison"
+                                                   value="{$uneCommande->getDate_livraison()->format('Y-m-d')}">
+                                            <input type="image" name="btn_modifier" src="public/images/icones/p16.png"">
 
-                                    <div class="form-group">Date de commande : 05/09/2017</div>
-                                    <div class="form-group">Date de livraison : 05/09/2017</div>
-                                    <div class="form-group">Total HT : 226.62 €</div>
-                                    <div class="form-group">Commande Validée : OUI</div>
-
-
+                                        </div>
+                                    </form>
+                                {else}
+                                    <div class="form-group">Date de livraison : {$uneCommande->getDate_livraison()->format('d/m/Y')}</div>
+                                {/if}
+                                <div class="form-group">Total HT : {$uneCommande->getTotal_ht()}</div>
+                                <div class="form-group">Statut de la commande :
+                                    {if $uneCommande->getStatut() == 'V'}
+                                        Validée
+                                    {elseif $uneCommande->getStatut() == 'NV'}
+                                        Non validée
+                                    {elseif $uneCommande->getStatut() == 'A'}
+                                        Annulée
+                                    {/if}
                                 </div>
+
                             </div>
                         </div>
+                    </div>
+
+
+                </div>
+
+                <div class="col-md-12">
+                    <!-- Liste lignes de commande -->
+
+                    <div class="card-body">
+                        <table class="table table-striped table-bordered">
+                            <thead>
+                            <tr>
+                                <th>N° Ligne</th>
+                                <th>Référence</th>
+                                <th>Désignation</th>
+                                <th>Quantité</th>
+                                <th>prix</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {foreach from=$uneCommande->getListeLigneCommande() item=ligne}
+                                <tr>
+                                    <td>{$ligne->getNumero_ligne()}</td>
+                                    <td>{$ligne->getReference()}</td>
+                                    <td>{$ligne->getDesignation()}</td>
+                                    <td>{$ligne->getQuantite_demandee()}</td>
+                                    <td>{number_format(round($ligne->getPrix()*1.357, 2), 2)}</td>
+                                </tr>
+                            {/foreach}
+                            <tr>
+                                <td colspan="3"> Montant de la commande : {$uneCommande->getTotal_ht()} €</td>
+                                <td colspan="2"> Total TVA : {$uneCommande->getTotal_tva()} €</td>
+                            </tr>
+                            </tbody>
+                        </table>
 
 
                     </div>
-
-                    <div class="col-md-12">
-                        <!-- Liste lignes de commande -->
-
-                        <div class="card-body">
-                            <table class="table table-striped table-bordered">
-                                <thead>
-                                <tr>
-                                    <th>N° Ligne</th>
-                                    <th>Référence</th>
-                                    <th>Désignation</th>
-                                    <th>Quantité</th>
-                                    <th>prix</th>
-                                    <!--<th class="pos-actions">Consulter</th>
-                                    <th class="pos-actions">Modifier</th>
-                                    <th class="pos-actions">Supprimer</th>-->
-
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>4015</td>
-                                    <td>SOURIS REGLISSE</td>
-                                    <td>1</td>
-                                    <td>32.57</td>
-
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>4025</td>
-                                    <td>COLA CITRIQUE</td>
-                                    <td>1</td>
-                                    <td>28.49</td>
-
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>4031</td>
-                                    <td>FRAISE TSOIN-TSOIN</td>
-                                    <td>1</td>
-                                    <td>33.92</td>
-
-                                </tr>
-                                <tr>
-                                    <td>4</td>
-                                    <td>4036</td>
-                                    <td>LANGUE COLA CITRIQUE</td>
-                                    <td>1</td>
-                                    <td>28.5</td>
-
-                                </tr>
-                                <tr>
-                                    <td>5</td>
-                                    <td>4004</td>
-                                    <td>SUCETTE BOULE POP</td>
-                                    <td>1</td>
-                                    <td>28.5</td>
-
-                                </tr>
-                                <tr>
-                                    <td>6</td>
-                                    <td>4053</td>
-                                    <td>OURSON GUIMAUVE</td>
-                                    <td>1</td>
-                                    <td>47.5</td>
-
-                                </tr>
-                                <tr>
-                                    <td>7</td>
-                                    <td>4042</td>
-                                    <td>TETINE CANDI</td>
-                                    <td>1</td>
-                                    <td>27.14</td>
-
-                                </tr>
-                                <tr>
-                                    <td colspan="3"> Montant de la commande : 226.62 €</td>
-                                    <td colspan="2"> Total TVA : 45.32 €</td>
-                                </tr>
-                                </tbody>
-                            </table>
-
-
+                    <div class="card-body card-block">
+                        <div class="col-md-6">
+                            <input type="button" class="btn btn-submit" name="btn_retour" value="Retour"
+                                   onclick="location.href ='index.php?gestion=commande'">
                         </div>
-                        <div class="card-body card-block">
-                            <div class="col-md-6"><input type="button" class="btn btn-submit" value="Retour"
-                                                         onclick="location.href = &quot;index.php?gestion=commande&quot;">
-                            </div>
-                            <div class="col-md-6 "></div>
-                            <br>
+                        <div class="col-md-6 ">
+                            {if $action == 'modifier'}
+                                <form action="index.php" method="POST">
+                                    <input type="hidden" name="gestion" value="commande">
+                                    <input type="hidden" name="action" value="finaliser">
+                                    <input type="submit" class="btn btn-submit pos-btn-action" name="btn_finaliser"
+                                           value="Finaliser">
+                                </form>
+                            {/if}
                         </div>
+
+                        <br>
                     </div>
-                </form>
+                </div>
+
             </div>
         </div><!-- .content -->
 

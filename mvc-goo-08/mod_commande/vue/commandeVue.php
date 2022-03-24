@@ -45,6 +45,7 @@ class CommandeVue
                 break;
             case 'form_modifier':
             case 'modifier':
+            case 'maj_date':
                 $this->tpl->assign('action', 'modifier');
                 $this->tpl->assign('titrePage', 'Fiche Commande : Modification');
                 $this->tpl->assign('readonly', '');
@@ -53,10 +54,5 @@ class CommandeVue
         }
 
         $this->tpl->display('mod_commande/vue/commandeFicheVue.tpl');
-    }
-
-    public function getAutorisationBD()
-    {
-        return false;
     }
 }

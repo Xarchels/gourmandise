@@ -75,7 +75,26 @@ class CommandeModele extends Modele
                 WHERE numero = ?";
         $idRequete = $this->executeRequete($sql, [$this->parametre['numero']]);
         $uneCommande = new CommandeTable($idRequete->fetch(PDO::FETCH_ASSOC));
+        $listeLigneCommande = $this->getListeLigneCommande();
+        $uneCommande->setListeLigneCommande($listeLigneCommande);
         return $uneCommande;
+    }
+
+    public  function getListeLigneCommande()
+    {
+        $sql = "SELECT numero, numero_ligne, ligne_commande.reference, designation, quantite_demandee, prix_unitaire_HT as prix
+                FROM ligne_commande INNER JOIN produit ON ligne_commande.reference = produit.reference
+                WHERE numero = ?
+                ORDER BY numero_ligne";
+        $idRequete = $this->executeRequete($sql, [$this->parametre['numero']]);
+        if ($idRequete->rowCount() > 0) {
+            while ($row = $idRequete->fetch(PDO::FETCH_ASSOC)) {
+                $listeLigneCommande[] = new LigneCommandeTable($row);
+            }
+            return $listeLigneCommande;
+        } else {
+            return null;
+        }
     }
 //
 //    public function addClient(ClientTable $client)
@@ -94,22 +113,18 @@ class CommandeModele extends Modele
 //        }
 //    }
 //
-//    public function editClient(ClientTable $client)
-//    {
-//        $sql = "UPDATE client SET nom = ?, adresse = ?, cp = ?, ville = ?, telephone = ? WHERE codec = ?";
-//        $idRequete = $this->executeRequete($sql, [
-//            $client->getNom(),
-//            $client->getAdresse(),
-//            $client->getCp(),
-//            $client->getVille(),
-//            $client->getTelephone(),
-//            $client->getCodec()
-//        ]);
-//
-//        if ($idRequete) {
-//            ClientTable::setMessageSucces("Client correctement modifié !");
-//        }
-//    }
+    public function editCommandeDateLivraison(CommandeTable $commande)
+    {
+        $sql = "UPDATE commande SET date_livraison = ? WHERE numero = ?";
+        $idRequete = $this->executeRequete($sql, [
+            $commande->getDate_livraison()->format('Y-m-d'),
+            $commande->getNumero()
+        ]);
+
+        if ($idRequete) {
+            ClientTable::setMessageSucces("La date de livraison a été correctement modifié !");
+        }
+    }
 //
 //    public function deleteClient()
 //    {

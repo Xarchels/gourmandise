@@ -5,8 +5,8 @@ class CommandeTable
     private $numero = "";
     private $codev = "";
     private $codec = "";
-    private $date_livraison = "";
-    private $date_commande = "";
+    private DateTime $date_livraison;
+    private DateTime $date_commande;
     private $total_ht = "";
     private $total_tva = "";
     private $etat = "";
@@ -14,6 +14,7 @@ class CommandeTable
     private $client = "";
     private $vendeurNom = "";
     private $vendeurPrenom = "";
+    private $listeLigneCommande = [];
 
     private $autorisationBD = true;
 
@@ -88,10 +89,7 @@ class CommandeTable
         $this->codec = $codec;
     }
 
-    /**
-     * @return string
-     */
-    public function getDate_livraison(): string
+    public function getDate_livraison()
     {
         return $this->date_livraison;
     }
@@ -101,13 +99,16 @@ class CommandeTable
      */
     public function setDate_livraison(string $date_livraison): void
     {
-        $this->date_livraison = $date_livraison;
+//        if($date_livraison < $this->date_commande->format('Y-m-d')){
+//            $this->setAutorisationBD(false);
+//            self::setMessageErreur("La date de livraison doit être après la date de commande");
+//        }
+        $date = new DateTime($date_livraison);
+//        $date_livraison = $date->format('Y-m-d');
+        $this->date_livraison = $date;
     }
 
-    /**
-     * @return string
-     */
-    public function getDate_commande(): string
+    public function getDate_commande()
     {
         return $this->date_commande;
     }
@@ -117,7 +118,9 @@ class CommandeTable
      */
     public function setDate_commande(string $date_commande): void
     {
-        $this->date_commande = $date_commande;
+        $date = new DateTime($date_commande);
+//        $date_commande = $date->format('Y-m-d');
+        $this->date_commande = $date;
     }
 
     /**
@@ -233,9 +236,25 @@ class CommandeTable
     }
 
     /**
+     * @return array
+     */
+    public function getListeLigneCommande(): array
+    {
+        return $this->listeLigneCommande;
+    }
+
+    /**
+     * @param array $listeLigneCommande
+     */
+    public function setListeLigneCommande(array $listeLigneCommande): void
+    {
+        $this->listeLigneCommande = $listeLigneCommande;
+    }
+
+    /**
      * @return bool
      */
-    public function isAutorisationBD(): bool
+    public function getAutorisationBD(): bool
     {
         return $this->autorisationBD;
     }

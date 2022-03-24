@@ -45,18 +45,12 @@ class CommandeControleur
 //        $prepareClient = new ClientTable();
 //        $this->oVue->genererAffichageFiche($prepareClient);
 //    }
-//
-//    public function form_modifier()
-//    {
-//        $unClient = $this->oModele->getUnClient();
-//        $this->oVue->genererAffichageFiche($unClient);
-//    }
-//
-//    public function form_supprimer()
-//    {
-//        $unClient = $this->oModele->getUnClient();
-//        $this->oVue->genererAffichageFiche($unClient);
-//    }
+
+    public function form_modifier()
+    {
+        $uneCommande = $this->oModele->getUneCommande();
+        $this->oVue->genererAffichageFiche($uneCommande);
+    }
 //
 //    public function ajouter()
 //    {
@@ -78,19 +72,16 @@ class CommandeControleur
 //            $this->oVue->genererAffichageFiche($controleClient);
 //        }
 //    }
-//
-//    public function modifier()
-//    {
-//        //Contrôler les données
-//        $controleClient = new ClientTable($this->parametre);
-//
-//        if ($controleClient->getAutorisationBD()) {
-//            $this->oModele->editClient($controleClient);
-//            $this->lister();
-//        } else {
-//            $this->oVue->genererAffichageFiche($controleClient);
-//        }
-//    }
+
+    public function modifierDateLivraison()
+    {
+        //Contrôler les données
+        $controleCommande = new CommandeTable($this->parametre);
+
+        if ($controleCommande->getAutorisationBD()) {
+            $this->oModele->editCommandeDateLivraison($controleCommande);
+        }
+    }
 //
 //    public function supprimer()
 //    {

@@ -38,6 +38,12 @@ class Commande
                 case 'listeAnnulee':
                     $this->oControleur->listerAnnulee();
                     break;
+                case 'maj_date':
+                    $this->oControleur->modifierDateLivraison();
+                    $this->oControleur->form_modifier();
+                    break;
+                case 'finaliser':
+                    break;
             }
         } else {
             $this->oControleur->lister();
