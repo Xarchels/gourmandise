@@ -25,7 +25,7 @@ class CommandeVue
         $this->tpl->display('mod_commande/vue/commandeListVue.tpl');
     }
 
-    public function genererAffichageFiche($valeurs)
+    public function genererAffichageFiche($valeurs, $valeursProduits = null)
     {
         $this->chargementValeurs();
 
@@ -35,24 +35,27 @@ class CommandeVue
                 $this->tpl->assign('titrePage', 'Fiche Commande : Consultation');
                 $this->tpl->assign('readonly', 'disabled');
                 $this->tpl->assign('uneCommande', $valeurs);
+                $this->tpl->display('mod_commande/vue/commandeFicheVue.tpl');
                 break;
             case 'form_ajouter' :
             case 'ajouter':
                 $this->tpl->assign('action', 'ajouter');
                 $this->tpl->assign('titrePage', 'Fiche Commande : Ajout');
-                $this->tpl->assign('readonly', '');
                 $this->tpl->assign('uneCommande', $valeurs);
+                $this->tpl->assign('listeProduits', $valeursProduits);
+                $this->tpl->display('mod_commande/vue/commandeFicheAjouterVue.tpl');
                 break;
             case 'form_modifier':
             case 'modifier':
             case 'maj_date':
+            case 'modifierLigne':
                 $this->tpl->assign('action', 'modifier');
                 $this->tpl->assign('titrePage', 'Fiche Commande : Modification');
-                $this->tpl->assign('readonly', '');
                 $this->tpl->assign('uneCommande', $valeurs);
+                $this->tpl->display('mod_commande/vue/commandeFicheVue.tpl');
                 break;
         }
 
-        $this->tpl->display('mod_commande/vue/commandeFicheVue.tpl');
+
     }
 }

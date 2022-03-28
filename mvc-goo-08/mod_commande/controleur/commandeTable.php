@@ -2,6 +2,8 @@
 
 class CommandeTable
 {
+    public const TVA = 0.20;
+
     private $numero = "";
     private $codev = "";
     private $codec = "";
@@ -99,12 +101,13 @@ class CommandeTable
      */
     public function setDate_livraison(string $date_livraison): void
     {
-//        if($date_livraison < $this->date_commande->format('Y-m-d')){
-//            $this->setAutorisationBD(false);
-//            self::setMessageErreur("La date de livraison doit être après la date de commande");
-//        }
+        if (isset($this->date_commande)){
+            if($date_livraison < $this->date_commande->format('Y-m-d')){
+                $this->setAutorisationBD(false);
+                self::setMessageErreur("La date de livraison doit être après la date de commande");
+            }
+        }
         $date = new DateTime($date_livraison);
-//        $date_livraison = $date->format('Y-m-d');
         $this->date_livraison = $date;
     }
 
@@ -238,15 +241,17 @@ class CommandeTable
     /**
      * @return array
      */
-    public function getListeLigneCommande(): array
+    public function getListeLigneCommande()
     {
-        return $this->listeLigneCommande;
+        if ($this->listeLigneCommande <> null){
+            return $this->listeLigneCommande;
+        }
     }
 
     /**
      * @param array $listeLigneCommande
      */
-    public function setListeLigneCommande(array $listeLigneCommande): void
+    public function setListeLigneCommande($listeLigneCommande): void
     {
         $this->listeLigneCommande = $listeLigneCommande;
     }
@@ -288,6 +293,7 @@ class CommandeTable
      */
     public static function getMessageSucces(): string
     {
+
         return self::$messageSucces;
     }
 

@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.34-dev-7, created on 2022-03-28 13:14:24
-  from 'C:\laragon\www\gourmandise\mvc-goo-08\mod_commande\vue\commandeListVue.tpl' */
+/* Smarty version 3.1.34-dev-7, created on 2022-03-28 13:00:00
+  from 'C:\laragon\www\gourmandise\mvc-goo-08\mod_produit\vue\produitListeVue.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.34-dev-7',
-  'unifunc' => 'content_6241b4b0e96688_89322142',
+  'unifunc' => 'content_6241b150c2d833_82472846',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
-    '0a333a62b3b39d032a44064de9bd8f6ceb6c8201' => 
+    '29d2a3135e85ce1305f8a8ddef792563652216d7' => 
     array (
-      0 => 'C:\\laragon\\www\\gourmandise\\mvc-goo-08\\mod_commande\\vue\\commandeListVue.tpl',
-      1 => 1648473262,
+      0 => 'C:\\laragon\\www\\gourmandise\\mvc-goo-08\\mod_produit\\vue\\produitListeVue.tpl',
+      1 => 1647963922,
       2 => 'file',
     ),
   ),
@@ -22,7 +22,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
     'file:public/header.tpl' => 1,
   ),
 ),false)) {
-function content_6241b4b0e96688_89322142 (Smarty_Internal_Template $_smarty_tpl) {
+function content_6241b150c2d833_82472846 (Smarty_Internal_Template $_smarty_tpl) {
 ?><!doctype html>
 <!--[if lt IE 7]>
 <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
@@ -99,15 +99,15 @@ function content_6241b4b0e96688_89322142 (Smarty_Internal_Template $_smarty_tpl)
                 <div class="page-title">
                     <ol class="breadcrumb text-right">
                         <li><a href="index.php">Accueil</a></li>
-                        <li class="active">Commandes</a></li>
+                        <li class="active">Produit</a></li>
                     </ol>
                 </div>
             </div>
         </div>
     </div>
 
-    <div <?php if (CommandeTable::getMessageSucces() != '') {?> class="alert alert-success"<?php }?>>
-        <?php echo CommandeTable::getMessageSucces();?>
+    <div <?php if (ProduitTable::getMessageSucces() != '') {?> class="alert alert-success"<?php }?>>
+        <?php echo ProduitTable::getMessageSucces();?>
 
     </div>
 
@@ -125,9 +125,9 @@ function content_6241b4b0e96688_89322142 (Smarty_Internal_Template $_smarty_tpl)
 
                                 <!-- PLACER LE FORMULAIRE D'AJOUT-->
                                 <form action="index.php" method="post">
-                                    <input type="hidden" name="gestion" value="commande">
+                                    <input type="hidden" name="gestion" value="produit">
                                     <input type="hidden" name="action" value="form_ajouter">
-                                    <label>Ajouter une commande :
+                                    <label>Ajouter un produit :
                                         <input type="image" src="public/images/icones/a16.png" name="btn_ajouter">
                                     </label>
                                 </form>
@@ -136,77 +136,68 @@ function content_6241b4b0e96688_89322142 (Smarty_Internal_Template $_smarty_tpl)
                         </div>
                         <div class="card-body">
                             <table id="bootstrap-data-table" class="table table-striped table-bordered">
-                                <!-- PLACER LA LISTE DES COMMANDES -->
+                                <!-- PLACER LA LISTE DES PRODUITS -->
                                 <thead>
                                 <tr>
-                                    <th>Numéro</th>
-                                    <th>Vendeur</th>
-                                    <th>Client</th>
-                                    <th>Montant HT</th>
+                                    <th>Reference</th>
+                                    <th>Désignation</th>
+                                    <th>Prix unitaire hors taxes</th>
+                                    <th>Stock</th>
                                     <th>Consulter</th>
                                     <th>Modifier</th>
+                                    <th>Supprimer</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <?php
-$_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->tpl_vars['listeCommandes']->value, 'commande');
-$_smarty_tpl->tpl_vars['commande']->do_else = true;
-if ($_from !== null) foreach ($_from as $_smarty_tpl->tpl_vars['commande']->value) {
-$_smarty_tpl->tpl_vars['commande']->do_else = false;
+$_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->tpl_vars['listeProduits']->value, 'produit');
+$_smarty_tpl->tpl_vars['produit']->do_else = true;
+if ($_from !== null) foreach ($_from as $_smarty_tpl->tpl_vars['produit']->value) {
+$_smarty_tpl->tpl_vars['produit']->do_else = false;
 ?>
                                     <tr>
-                                        <td><?php echo $_smarty_tpl->tpl_vars['commande']->value->getNumero();?>
+                                        <td><?php echo $_smarty_tpl->tpl_vars['produit']->value->getReference();?>
 </td>
-                                        <td><?php echo $_smarty_tpl->tpl_vars['commande']->value->getVendeurNom();?>
- <?php echo $_smarty_tpl->tpl_vars['commande']->value->getVendeurPrenom();?>
- </td>
-                                        <td>
-                                            <form method="post" action="index.php">
-                                                <input type="hidden" name="gestion" value="client">
-                                                <input type="hidden" name="action" value="form_consulter">
-                                                <input type="hidden" name="codec" value="<?php echo $_smarty_tpl->tpl_vars['commande']->value->getCodec();?>
-">
-                                                <a style="cursor:pointer;
-                                                          text-decoration:underline;"
-                                                   onclick="this.closest('form').submit();">
-                                                    <?php echo $_smarty_tpl->tpl_vars['commande']->value->getCodec();?>
- - <?php echo $_smarty_tpl->tpl_vars['commande']->value->getClient();?>
-
-                                                </a>
-                                            </form>
-                                        </td>
-                                        <td><?php echo $_smarty_tpl->tpl_vars['commande']->value->getTotal_ht();?>
+                                        <td><?php echo $_smarty_tpl->tpl_vars['produit']->value->getDesignation();?>
+</td>
+                                        <td><?php echo $_smarty_tpl->tpl_vars['produit']->value->getPrix_unitaire_HT();?>
+</td>
+                                        <td><?php echo $_smarty_tpl->tpl_vars['produit']->value->getStock();?>
 </td>
                                         <td>
                                             <form method="post" action="index.php">
-                                                <input type="hidden" name="gestion" value="commande">
+                                                <input type="hidden" name="gestion" value="produit">
                                                 <input type="hidden" name="action" value="form_consulter">
-                                                <input type="hidden" name="numero" value="<?php echo $_smarty_tpl->tpl_vars['commande']->value->getNumero();?>
+                                                <input type="hidden" name="reference" value="<?php echo $_smarty_tpl->tpl_vars['produit']->value->getReference();?>
 ">
                                                 <input type="image" src="public/images/icones/m16.png"
                                                        name="btn-consulter">
                                             </form>
                                         </td>
                                         <td>
-                                            <?php if ($_smarty_tpl->tpl_vars['commande']->value->getStatut() == 'NV') {?>
-                                                <form method="post" action="index.php">
-                                                    <input type="hidden" name="gestion" value="commande">
-                                                    <input type="hidden" name="action" value="form_modifier">
-                                                    <input type="hidden" name="numero" value="<?php echo $_smarty_tpl->tpl_vars['commande']->value->getNumero();?>
+                                            <form method="post" action="index.php">
+                                                <input type="hidden" name="gestion" value="produit">
+                                                <input type="hidden" name="action" value="form_modifier">
+                                                <input type="hidden" name="reference" value="<?php echo $_smarty_tpl->tpl_vars['produit']->value->getReference();?>
 ">
-                                                    <input type="image" src="public/images/icones/p16.png"
-                                                           name="btn-modifier">
-                                                </form>
-                                            <?php } elseif ($_smarty_tpl->tpl_vars['commande']->value->getStatut() == 'A') {?>
-                                                Annulée
-                                            <?php } elseif ($_smarty_tpl->tpl_vars['commande']->value->getStatut() == 'V') {?>
-                                                Validée
-                                            <?php }?>
+                                                <input type="image" src="public/images/icones/p16.png"
+                                                       name="btn-modifier">
+                                            </form>
+                                        </td>
+                                        <td>
+                                            <form method="post" action="index.php">
+                                                <input type="hidden" name="gestion" value="produit">
+                                                <input type="hidden" name="action" value="form_supprimer">
+                                                <input type="hidden" name="reference" value="<?php echo $_smarty_tpl->tpl_vars['produit']->value->getReference();?>
+">
+                                                <input type="image" src="public/images/icones/s16.png"
+                                                       name="btn-supprimer">
+                                            </form>
                                         </td>
                                     </tr>
                                     <?php
 }
-if ($_smarty_tpl->tpl_vars['commande']->do_else) {
+if ($_smarty_tpl->tpl_vars['produit']->do_else) {
 ?>
                                     <tr>
                                         <td colspan="7">

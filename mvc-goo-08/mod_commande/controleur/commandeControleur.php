@@ -40,18 +40,20 @@ class CommandeControleur
         $this->oVue->genererAffichageFiche($uneCommande);
     }
 
-//    public function form_ajouter()
-//    {
-//        $prepareClient = new ClientTable();
-//        $this->oVue->genererAffichageFiche($prepareClient);
-//    }
+    public function form_ajouter()
+    {
+        $prepareCommande = new CommandeTable();
+        $oModele2 = new ProduitModele($this->parametre);
+        $listeProduit = $oModele2->getListeProduits();
+        $this->oVue->genererAffichageFiche($prepareCommande, $listeProduit);
+    }
 
     public function form_modifier()
     {
         $uneCommande = $this->oModele->getUneCommande();
         $this->oVue->genererAffichageFiche($uneCommande);
     }
-//
+
 //    public function ajouter()
 //    {
 //        /*
@@ -63,13 +65,13 @@ class CommandeControleur
 //         * Sinon, on redirige vers le formulaire en création avec les valeurs précédemment saisies
 //         */
 //
-//        $controleClient = new ClientTable($this->parametre);
+//        $controleCommande = new CommandeTable($this->parametre);
 //
-//        if ($controleClient->getAutorisationBD()) {
-//            $this->oModele->addClient($controleClient);
+//        if ($controleCommande->getAutorisationBD()) {
+//            $this->oModele->addCommande($controleCommande);
 //            $this->lister();
 //        } else {
-//            $this->oVue->genererAffichageFiche($controleClient);
+//            $this->oVue->genererAffichageFiche($controleCommande);
 //        }
 //    }
 
@@ -81,6 +83,38 @@ class CommandeControleur
         if ($controleCommande->getAutorisationBD()) {
             $this->oModele->editCommandeDateLivraison($controleCommande);
         }
+    }
+
+    public function modifierLigne_commande()
+    {
+        //Contrôler les données
+        $controleLigneCommande = new ligneCommandeTable($this->parametre);
+        $controleCommande = new CommandeTable($this->parametre);
+
+        if ($controleCommande->getAutorisationBD() && $controleLigneCommande->getAutorisationBD()) {
+            $this->oModele->editLigneCommande($controleLigneCommande);
+            $this->oModele->editCommandePrix($controleCommande);
+        }
+    }
+
+    public function finaliser()
+    {
+        $controleCommande = new CommandeTable($this->parametre);
+
+        if ($controleCommande->getAutorisationBD()) {
+            $this->oModele->editStatutCommande('V');
+        }
+        $this->lister();
+    }
+
+    public function annuler()
+    {
+        $controleCommande = new CommandeTable($this->parametre);
+
+        if ($controleCommande->getAutorisationBD()) {
+            $this->oModele->editStatutCommande('A');
+        }
+        $this->lister();
     }
 //
 //    public function supprimer()

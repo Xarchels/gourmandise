@@ -80,12 +80,11 @@ class CommandeModele extends Modele
         return $uneCommande;
     }
 
-    public  function getListeLigneCommande()
+    public function getListeLigneCommande()
     {
-        $sql = "SELECT numero, numero_ligne, ligne_commande.reference, designation, quantite_demandee, prix_unitaire_HT as prix
+        $sql = "SELECT numero, numero_ligne, ligne_commande.reference, designation, quantite_demandee, prix, prix_unitaire_HT as prix_ht
                 FROM ligne_commande INNER JOIN produit ON ligne_commande.reference = produit.reference
-                WHERE numero = ?
-                ORDER BY numero_ligne";
+                WHERE numero = ?";
         $idRequete = $this->executeRequete($sql, [$this->parametre['numero']]);
         if ($idRequete->rowCount() > 0) {
             while ($row = $idRequete->fetch(PDO::FETCH_ASSOC)) {
@@ -96,23 +95,26 @@ class CommandeModele extends Modele
             return null;
         }
     }
-//
-//    public function addClient(ClientTable $client)
-//    {
-//        $sql = "INSERT INTO client(nom, adresse, cp, ville, telephone) VALUES(?, ?, ?, ?, ?)";
-//        $idRequete = $this->executeRequete($sql, [
-//            $client->getNom(),
-//            $client->getAdresse(),
-//            $client->getCp(),
-//            $client->getVille(),
-//            $client->getTelephone()
-//        ]);
-//
-//        if ($idRequete) {
-//            ClientTable::setMessageSucces("Client correctement ajouté !");
-//        }
-//    }
-//
+
+
+    public function addCommande(CommandeTable $commande)
+    {
+        $sql = "INSERT INTO commande(codev, codec, date_livraison, date_commande, total_ht, total_tva, etat, statut)
+                VALUES(?, ?, ?, ?, ?, ?, 0, 'NV')";
+        $idRequete = $this->executeRequete($sql, [
+            $commande->getCodev(),
+            $commande->getCodec(),
+            $commande->getDate_livraison(),
+            $commande->getDate_commande(),
+            $commande->getTotal_ht(),
+            $commande->getTotal_tva(),
+        ]);
+
+        if ($idRequete) {
+            CommandeTable::setMessageSucces("Commande correctement ajouté !");
+        }
+    }
+
     public function editCommandeDateLivraison(CommandeTable $commande)
     {
         $sql = "UPDATE commande SET date_livraison = ? WHERE numero = ?";
@@ -122,7 +124,57 @@ class CommandeModele extends Modele
         ]);
 
         if ($idRequete) {
-            ClientTable::setMessageSucces("La date de livraison a été correctement modifié !");
+            CommandeTable::setMessageSucces("La date de livraison a été correctement modifié !");
+        }
+    }
+
+    public function editLigneCommande(ligneCommandeTable $ligne)
+    {
+        $sql = "UPDATE ligne_commande SET quantite_demandee = ? WHERE numero = ? AND numero_ligne = ?";
+        $idRequete = $this->executeRequete($sql, [
+            $ligne->getQuantite_demandee(),
+            $ligne->getNumero(),
+            $ligne->getNumero_ligne()
+        ]);
+
+        if ($idRequete) {
+            CommandeTable::setMessageSucces("La commande a été correctement modifié !");
+        }
+    }
+
+    public function editCommandePrix(CommandeTable $commande)
+    {
+        $sql = "SELECT SUM(((prix=0)*prix_unitaire_HT + prix)*quantite_demandee) as total_ht
+                FROM ligne_commande INNER JOIN produit ON ligne_commande.reference = produit.reference
+                WHERE numero = ?
+                GROUP BY numero";
+        $idRequete = $this->executeRequete($sql, [$this->parametre['numero']]);
+        $row = $idRequete->fetch(PDO::FETCH_ASSOC);
+        $total_ht = number_format($row['total_ht'] * 1.357, 2);
+        $total_tva = number_format($total_ht * $commande::TVA, 2);
+
+        $sql = "UPDATE commande SET total_ht = ?, total_tva = ? WHERE numero = ?";
+        $idRequete = $this->executeRequete($sql, [
+            $total_ht,
+            $total_tva,
+            $this->parametre['numero']
+        ]);
+    }
+
+    public function editStatutCommande(string $statut)
+    {
+        $sql = "UPDATE commande SET statut = ? WHERE numero = ?";
+        $idRequete = $this->executeRequete($sql, [
+            $statut,
+            $this->parametre['numero']
+        ]);
+
+        if ($idRequete){
+            if ($statut == 'V') {
+                CommandeTable::setMessageSucces("La commande a été correctement validée !");
+            } elseif ($statut == 'A'){
+                CommandeTable::setMessageSucces("La commande a été correctement annulée !");
+            }
         }
     }
 //

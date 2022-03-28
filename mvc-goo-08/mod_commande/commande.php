@@ -29,9 +29,6 @@ class Commande
                 case 'form_modifier':
                     $this->oControleur->form_modifier();
                     break;
-                case 'modifier':
-                    $this->oControleur->modifier();
-                    break;
                 case 'listeNonValide':
                     $this->oControleur->listerNonValide();
                     break;
@@ -42,7 +39,15 @@ class Commande
                     $this->oControleur->modifierDateLivraison();
                     $this->oControleur->form_modifier();
                     break;
+                case 'modifierLigne':
+                    $this->oControleur->modifierLigne_commande();
+                    $this->oControleur->form_modifier();
+                    break;
                 case 'finaliser':
+                    $this->oControleur->finaliser();
+                    break;
+                case 'annuler':
+                    $this->oControleur->annuler();
                     break;
             }
         } else {

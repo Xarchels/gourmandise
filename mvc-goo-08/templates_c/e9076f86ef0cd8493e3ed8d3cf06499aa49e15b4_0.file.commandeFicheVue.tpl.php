@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.34-dev-7, created on 2022-03-24 16:06:56
+/* Smarty version 3.1.34-dev-7, created on 2022-03-28 14:42:51
   from 'C:\laragon\www\gourmandise\mvc-goo-08\mod_commande\vue\commandeFicheVue.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.34-dev-7',
-  'unifunc' => 'content_623c9720a60432_09772343',
+  'unifunc' => 'content_6241c96bd4b130_44127545',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'e9076f86ef0cd8493e3ed8d3cf06499aa49e15b4' => 
     array (
       0 => 'C:\\laragon\\www\\gourmandise\\mvc-goo-08\\mod_commande\\vue\\commandeFicheVue.tpl',
-      1 => 1648137922,
+      1 => 1648478569,
       2 => 'file',
     ),
   ),
@@ -22,7 +22,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
     'file:public/header.tpl' => 1,
   ),
 ),false)) {
-function content_623c9720a60432_09772343 (Smarty_Internal_Template $_smarty_tpl) {
+function content_6241c96bd4b130_44127545 (Smarty_Internal_Template $_smarty_tpl) {
 ?><!doctype html>
 <!--[if lt IE 7]>
 <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
@@ -161,7 +161,8 @@ function content_623c9720a60432_09772343 (Smarty_Internal_Template $_smarty_tpl)
                                         <input type="hidden" name="action" value="maj_date">
                                         <input type="hidden" name="numero" value="<?php echo $_smarty_tpl->tpl_vars['uneCommande']->value->getNumero();?>
 ">
-                                        <input type="hidden" name="date_commande" value="<?php echo $_smarty_tpl->tpl_vars['uneCommande']->value->getDate_commande()->format('Y-m-d');?>
+                                        <input type="hidden" name="date_commande"
+                                               value="<?php echo $_smarty_tpl->tpl_vars['uneCommande']->value->getDate_commande()->format('Y-m-d');?>
 ">
                                         <div class="form-group">
                                             Date de livraison :
@@ -173,7 +174,8 @@ function content_623c9720a60432_09772343 (Smarty_Internal_Template $_smarty_tpl)
                                         </div>
                                     </form>
                                 <?php } else { ?>
-                                    <div class="form-group">Date de livraison : <?php echo $_smarty_tpl->tpl_vars['uneCommande']->value->getDate_livraison()->format('d/m/Y');?>
+                                    <div class="form-group">Date de livraison
+                                        : <?php echo $_smarty_tpl->tpl_vars['uneCommande']->value->getDate_livraison()->format('d/m/Y');?>
 </div>
                                 <?php }?>
                                 <div class="form-group">Total HT : <?php echo $_smarty_tpl->tpl_vars['uneCommande']->value->getTotal_ht();?>
@@ -207,6 +209,9 @@ function content_623c9720a60432_09772343 (Smarty_Internal_Template $_smarty_tpl)
                                 <th>Désignation</th>
                                 <th>Quantité</th>
                                 <th>prix</th>
+                                <?php if ($_smarty_tpl->tpl_vars['action']->value == 'modifier' || $_smarty_tpl->tpl_vars['action']->value == 'form_modifier') {?>
+                                    <th>Modifier</th>
+                                <?php }?>
                             </tr>
                             </thead>
                             <tbody>
@@ -223,10 +228,42 @@ $_smarty_tpl->tpl_vars['ligne']->do_else = false;
 </td>
                                     <td><?php echo $_smarty_tpl->tpl_vars['ligne']->value->getDesignation();?>
 </td>
-                                    <td><?php echo $_smarty_tpl->tpl_vars['ligne']->value->getQuantite_demandee();?>
+                                    <?php if ($_smarty_tpl->tpl_vars['action']->value == 'modifier' || $_smarty_tpl->tpl_vars['action']->value == 'form_modifier') {?>
+                                        <td>
+                                            <form action="index.php" method="post">
+                                                <input type="hidden" name="gestion" value="commande">
+                                                <input type="hidden" name="action" value="modifierLigne">
+                                                <input type="number" name="quantite"
+                                                       value="<?php echo $_smarty_tpl->tpl_vars['ligne']->value->getQuantite_demandee();?>
+">
+                                            </form>
+                                        </td>
+                                    <?php } else { ?>
+                                        <td><?php echo $_smarty_tpl->tpl_vars['ligne']->value->getQuantite_demandee();?>
 </td>
-                                    <td><?php echo number_format(round($_smarty_tpl->tpl_vars['ligne']->value->getPrix()*1.357,2),2);?>
-</td>
+                                    <?php }?>
+
+                                    <td>
+                                        <?php if ($_smarty_tpl->tpl_vars['ligne']->value->getPrix() == 0) {?>
+                                            <?php echo number_format(round($_smarty_tpl->tpl_vars['ligne']->value->getPrix_ht()*1.357,2),2);?>
+
+                                        <?php } else { ?>
+                                            <?php echo $_smarty_tpl->tpl_vars['ligne']->value->getPrix();?>
+
+                                        <?php }?>
+                                    </td>
+                                    <?php if ($_smarty_tpl->tpl_vars['action']->value == 'modifier' || $_smarty_tpl->tpl_vars['action']->value == 'form_modifier') {?>
+                                        <td>
+                                            <form action="index.php" method="post">
+                                                <input type="hidden" name="gestion" value="commande">
+                                                <input type="hidden" name="action" value="modifierLigne">
+                                                <input type="hidden" name="numero" value="<?php echo $_smarty_tpl->tpl_vars['uneCommande']->value->getNumero();?>
+">
+                                                <input type="image" src="public/images/icones/p16.png"
+                                                       name="btn-modifier">
+                                            </form>
+                                        </td>
+                                    <?php }?>
                                 </tr>
                             <?php
 }
@@ -234,7 +271,7 @@ $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
                             <tr>
                                 <td colspan="3"> Montant de la commande : <?php echo $_smarty_tpl->tpl_vars['uneCommande']->value->getTotal_ht();?>
  €</td>
-                                <td colspan="2"> Total TVA : <?php echo $_smarty_tpl->tpl_vars['uneCommande']->value->getTotal_tva();?>
+                                <td colspan="3"> Total TVA : <?php echo $_smarty_tpl->tpl_vars['uneCommande']->value->getTotal_tva();?>
  €</td>
                             </tr>
                             </tbody>
@@ -247,14 +284,26 @@ $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
                             <input type="button" class="btn btn-submit" name="btn_retour" value="Retour"
                                    onclick="location.href ='index.php?gestion=commande'">
                         </div>
-                        <div class="col-md-6 ">
+                        <div class="col-md-5 ">
                             <?php if ($_smarty_tpl->tpl_vars['action']->value == 'modifier') {?>
-                                <form action="index.php" method="POST">
-                                    <input type="hidden" name="gestion" value="commande">
-                                    <input type="hidden" name="action" value="finaliser">
-                                    <input type="submit" class="btn btn-submit pos-btn-action" name="btn_finaliser"
-                                           value="Finaliser">
-                                </form>
+                            <form action="index.php" method="POST">
+                                <input type="hidden" name="gestion" value="commande">
+                                <input type="hidden" name="action" value="annuler">
+                                <input type="hidden" name="numero" value="<?php echo $_smarty_tpl->tpl_vars['uneCommande']->value->getNumero();?>
+">
+                                <input type="submit" class="btn btn-submit pos-btn-action" name="btn_annuler"
+                                       value="Annuler">
+                            </form>
+                        </div>
+                        <div class="col-md-1 ">
+                            <form action="index.php" method="POST">
+                                <input type="hidden" name="gestion" value="commande">
+                                <input type="hidden" name="action" value="finaliser">
+                                <input type="hidden" name="numero" value="<?php echo $_smarty_tpl->tpl_vars['uneCommande']->value->getNumero();?>
+">
+                                <input type="submit" class="btn btn-submit pos-btn-action" name="btn_finaliser"
+                                       value="Finaliser">
+                            </form>
                             <?php }?>
                         </div>
 

@@ -119,7 +119,8 @@
                                         <input type="hidden" name="gestion" value="commande">
                                         <input type="hidden" name="action" value="maj_date">
                                         <input type="hidden" name="numero" value="{$uneCommande->getNumero()}">
-                                        <input type="hidden" name="date_commande" value="{$uneCommande->getDate_commande()->format('Y-m-d')}">
+                                        <input type="hidden" name="date_commande"
+                                               value="{$uneCommande->getDate_commande()->format('Y-m-d')}">
                                         <div class="form-group">
                                             Date de livraison :
                                             <input type="date" name="date_livraison"
@@ -129,7 +130,8 @@
                                         </div>
                                     </form>
                                 {else}
-                                    <div class="form-group">Date de livraison : {$uneCommande->getDate_livraison()->format('d/m/Y')}</div>
+                                    <div class="form-group">Date de livraison
+                                        : {$uneCommande->getDate_livraison()->format('d/m/Y')}</div>
                                 {/if}
                                 <div class="form-group">Total HT : {$uneCommande->getTotal_ht()}</div>
                                 <div class="form-group">Statut de la commande :
@@ -161,6 +163,9 @@
                                 <th>Désignation</th>
                                 <th>Quantité</th>
                                 <th>prix</th>
+                                {if $action == 'modifier' || $action == 'form_modifier'}
+                                    <th>Modifier</th>
+                                {/if}
                             </tr>
                             </thead>
                             <tbody>
@@ -169,13 +174,42 @@
                                     <td>{$ligne->getNumero_ligne()}</td>
                                     <td>{$ligne->getReference()}</td>
                                     <td>{$ligne->getDesignation()}</td>
-                                    <td>{$ligne->getQuantite_demandee()}</td>
-                                    <td>{number_format(round($ligne->getPrix()*1.357, 2), 2)}</td>
+                                    {if $action == 'modifier' || $action == 'form_modifier'}
+                                        <td>
+                                            <form action="index.php" method="post">
+                                                <input type="hidden" name="gestion" value="commande">
+                                                <input type="hidden" name="action" value="modifierLigne">
+                                                <input type="number" name="quantite"
+                                                       value="{$ligne->getQuantite_demandee()}">
+                                            </form>
+                                        </td>
+                                    {else}
+                                        <td>{$ligne->getQuantite_demandee()}</td>
+                                    {/if}
+
+                                    <td>
+                                        {if $ligne->getPrix() == 0}
+                                            {number_format(round($ligne->getPrix_ht()*1.357, 2), 2)}
+                                        {else}
+                                            {$ligne->getPrix()}
+                                        {/if}
+                                    </td>
+                                    {if $action == 'modifier' || $action == 'form_modifier'}
+                                        <td>
+                                            <form action="index.php" method="post">
+                                                <input type="hidden" name="gestion" value="commande">
+                                                <input type="hidden" name="action" value="modifierLigne">
+                                                <input type="hidden" name="numero" value="{$uneCommande->getNumero()}">
+                                                <input type="image" src="public/images/icones/p16.png"
+                                                       name="btn-modifier">
+                                            </form>
+                                        </td>
+                                    {/if}
                                 </tr>
                             {/foreach}
                             <tr>
                                 <td colspan="3"> Montant de la commande : {$uneCommande->getTotal_ht()} €</td>
-                                <td colspan="2"> Total TVA : {$uneCommande->getTotal_tva()} €</td>
+                                <td colspan="3"> Total TVA : {$uneCommande->getTotal_tva()} €</td>
                             </tr>
                             </tbody>
                         </table>
@@ -187,14 +221,24 @@
                             <input type="button" class="btn btn-submit" name="btn_retour" value="Retour"
                                    onclick="location.href ='index.php?gestion=commande'">
                         </div>
-                        <div class="col-md-6 ">
+                        <div class="col-md-5 ">
                             {if $action == 'modifier'}
-                                <form action="index.php" method="POST">
-                                    <input type="hidden" name="gestion" value="commande">
-                                    <input type="hidden" name="action" value="finaliser">
-                                    <input type="submit" class="btn btn-submit pos-btn-action" name="btn_finaliser"
-                                           value="Finaliser">
-                                </form>
+                            <form action="index.php" method="POST">
+                                <input type="hidden" name="gestion" value="commande">
+                                <input type="hidden" name="action" value="annuler">
+                                <input type="hidden" name="numero" value="{$uneCommande->getNumero()}">
+                                <input type="submit" class="btn btn-submit pos-btn-action" name="btn_annuler"
+                                       value="Annuler">
+                            </form>
+                        </div>
+                        <div class="col-md-1 ">
+                            <form action="index.php" method="POST">
+                                <input type="hidden" name="gestion" value="commande">
+                                <input type="hidden" name="action" value="finaliser">
+                                <input type="hidden" name="numero" value="{$uneCommande->getNumero()}">
+                                <input type="submit" class="btn btn-submit pos-btn-action" name="btn_finaliser"
+                                       value="Finaliser">
+                            </form>
                             {/if}
                         </div>
 
