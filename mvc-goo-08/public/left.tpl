@@ -53,6 +53,9 @@
                     <li>
                         <a href="index.php?gestion=commande&action=form_ajouter"> <i class="menu-icon ti-email"></i>Passer une commande </a>
                     </li>
+                    <li>
+                        <a href="index.php?gestion=commande&action=form_vider"> <i class="menu-icon ti-trash"></i>Vider le panier en cours </a>
+                    </li>
                    
                 </ul>
             </div><!-- /.navbar-collapse -->

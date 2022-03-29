@@ -23,9 +23,6 @@ class Commande
                 case 'form_ajouter':
                     $this->oControleur->form_ajouter();
                     break;
-                case 'ajouter':
-                    $this->oControleur->ajouter();
-                    break;
                 case 'form_modifier':
                     $this->oControleur->form_modifier();
                     break;
@@ -37,17 +34,24 @@ class Commande
                     break;
                 case 'maj_date':
                     $this->oControleur->modifierDateLivraison();
-                    $this->oControleur->form_modifier();
                     break;
                 case 'modifierLigne':
                     $this->oControleur->modifierLigne_commande();
-                    $this->oControleur->form_modifier();
                     break;
                 case 'finaliser':
                     $this->oControleur->finaliser();
                     break;
                 case 'annuler':
                     $this->oControleur->annuler();
+                    break;
+                case 'form_vider':
+                    $this->oControleur->vider();
+                    break;
+                case 'ajouter_ligne':
+                    $this->oControleur->ajouterLigne();
+                    break;
+                case 'panier':
+                    $this->oControleur->form_panier();
                     break;
             }
         } else {

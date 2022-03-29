@@ -9,8 +9,8 @@ class CommandeTable
     private $codec = "";
     private DateTime $date_livraison;
     private DateTime $date_commande;
-    private $total_ht = "";
-    private $total_tva = "";
+    private $total_ht = 0;
+    private $total_tva = 0;
     private $etat = "";
     private $statut = "";
     private $client = "";
@@ -126,34 +126,28 @@ class CommandeTable
         $this->date_commande = $date;
     }
 
-    /**
-     * @return string
-     */
-    public function getTotal_ht(): string
+    public function getTotal_ht()
     {
         return $this->total_ht;
     }
 
     /**
-     * @param string $total_ht
+     * @param $total_ht
      */
     public function setTotal_ht(string $total_ht): void
     {
-        $this->total_ht = $total_ht;
+        $this->total_ht = number_format($total_ht,2);
     }
 
-    /**
-     * @return string
-     */
-    public function getTotal_tva(): string
+    public function getTotal_tva()
     {
         return $this->total_tva;
     }
 
     /**
-     * @param string $total_tva
+     * @param $total_tva
      */
-    public function setTotal_tva(string $total_tva): void
+    public function setTotal_tva(string $total_tva)
     {
         $this->total_tva = $total_tva;
     }
@@ -245,6 +239,8 @@ class CommandeTable
     {
         if ($this->listeLigneCommande <> null){
             return $this->listeLigneCommande;
+        } else {
+            return null;
         }
     }
 

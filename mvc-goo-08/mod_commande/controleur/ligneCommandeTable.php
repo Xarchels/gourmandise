@@ -7,8 +7,8 @@ class LigneCommandeTable
     private $reference = "";
     private $designation = "";
     private $quantite_demandee = "";
-    private $prix_ht = 0;
-    private $prix = 0;
+    private $prix_ht = "";
+    private float $prix = 0;
 
     private $autorisationBD = true;
 
@@ -132,17 +132,17 @@ class LigneCommandeTable
     }
 
     /**
-     * @return int
+     * @return
      */
-    public function getPrix(): int
+    public function getPrix()
     {
         return $this->prix;
     }
 
     /**
-     * @param int $prix
+     * @param $prix
      */
-    public function setPrix(int $prix): void
+    public function setPrix($prix)
     {
         $this->prix = $prix;
     }

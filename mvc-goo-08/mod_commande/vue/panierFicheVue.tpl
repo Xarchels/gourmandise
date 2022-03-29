@@ -89,53 +89,6 @@
             <div class="row">
                 <div class="col-md-12">
 
-                    <div class="card">
-                        <div class="card-header">
-                            <form action="index.php" method="post">
-                                <label>
-                                    <strong class="card-title">Voir le panier :</strong>
-                                    <input type="hidden" name="gestion" value="commande">
-                                    <input type="hidden" name="action" value="panier">
-                                    <input type="image" src="public/images/icones/p16.png"
-                                           name="btn-panier">
-                                </label>
-                            </form>
-                        </div>
-
-                        <div class="card-body card-block">
-
-                            <div class="form-group">
-                                <div class="col-md-5">
-                                    Total HT (en €) :
-                                </div>
-                                <div class="col-md-7">
-                                    <form action="index.php" method="post">
-                                        <input class="form-control" type="text" name="txt_total"
-                                               value="{$uneCommande->getTotal_ht()}"
-                                               readonly>
-                                    </form>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-md-5">
-                                    Quantité d'article(s) dans le panier :
-                                </div>
-                                <div class="col-md-7">
-                                    <form action="index.php" method="post">
-                                        <input class="form-control" type="text" name="txt_qte" value="{$quantite}" readonly>
-                                    </form>
-                                </div>
-                            </div>
-
-
-                        </div>
-                    </div>
-
-
-                </div>
-
-                <div class="col-md-12">
-
                     <!-- Liste lignes de commande -->
 
                     <div class="card-body">
@@ -145,40 +98,51 @@
                                 <tr>
                                     <th>Référence</th>
                                     <th>Désignation</th>
-                                    <th>Stock</th>
+                                    <th>Quantité</th>
                                     <th>Prix HT</th>
                                     <th>Prix Vente</th>
-                                    <th>Quantité</th>
-                                    <th></th>
+                                    <th>Total</th>
+                                    <th>Modifier</th>
+                                    <th>Supprimer</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {foreach from=$listeProduits item=produit}
+                                {foreach from=$lignes item=ligne}
                                     <tr>
                                         <form method="post" action="index.php">
-                                            <td>{$produit->getReference()}</td>
-                                            <td>{$produit->getDesignation()}</td>
-                                            <td>{$produit->getStock()}</td>
-                                            <td>{$produit->getPrix_unitaire_HT()}</td>
+                                            <td>{$ligne->getReference()}</td>
+                                            <td>{$ligne->getDesignation()}</td>
                                             <td>
-                                                <input type="number" name="prixVente" step="0.01"
-                                                       value="{number_format($produit->getPrix_unitaire_HT()*1.357,2)}"
-                                                       size="5"></td>
-                                            <td>
-                                                <input type="number" name="quantite" value="">
+                                                <input type="number" name="quantite"
+                                                       value="{$ligne->getQuantite_demandee()}">
                                             </td>
+                                            <td>{$ligne->getPrix_ht()}</td>
                                             <td>
-
+                                                <input type="text" name="prixVente"
+                                                       value="{$ligne->getPrix()}" size="5">
+                                            </td>
+                                            <td>{$ligne->getPrix() * $ligne->getQuantite_Demandee()}</td>
+                                            <td>
                                                 <input type="hidden" name="gestion" value="commande">
-                                                <input type="hidden" name="action" value="ajouter_ligne">
+                                                <input type="hidden" name="action" value="modifier_ligne">
                                                 <input type="hidden" name="reference"
-                                                       value="{$produit->getReference()}">
-                                                <input type="image" src="public/images/icones/a16.png"
-                                                       name="btn-ajouter">
-
+                                                       value="{$ligne->getReference()}">
+                                                <input type="image" src="public/images/icones/m16.png"
+                                                       name="btn-modifier">
                                             </td>
                                         </form>
-                                        {foreachelse}
+                                        <form method="post" action="index.php">
+                                            <td>
+                                                <input type="hidden" name="gestion" value="commande">
+                                                <input type="hidden" name="action" value="supprimer_ligne">
+                                                <input type="hidden" name="reference"
+                                                       value="{$ligne->getReference()}">
+                                                <input type="image" src="public/images/icones/s16.png"
+                                                       name="btn-supprimer">
+                                            </td>
+                                        </form>
+                                    </tr>
+                                    {foreachelse}
                                     <tr>
                                         <td colspan="7">
                                             Aucun enregistrement trouvé
@@ -193,8 +157,13 @@
                     <div class="card-body card-block">
                         <div class="col-md-6">
                             <input type="button" class="btn btn-submit" name="btn_retour" value="Retour"
-                                   onclick="location.href ='index.php?gestion=commande'">
+                                   onclick="location.href ='index.php?gestion=commande&action=form_ajouter'">
                         </div>
+                        <div class="col-md-6">
+                            <input type="button" class="btn btn-submit float-right" name="btn_retour" value="Enregistrer la commande"
+                                   onclick="location.href ='index.php?gestion=commande&action=form_enregistrer'">
+                        </div>
+
                     </div>
                 </div>
             </div>

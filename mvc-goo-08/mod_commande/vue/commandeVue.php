@@ -39,10 +39,12 @@ class CommandeVue
                 break;
             case 'form_ajouter' :
             case 'ajouter':
+            case 'ajouter_ligne':
                 $this->tpl->assign('action', 'ajouter');
                 $this->tpl->assign('titrePage', 'Fiche Commande : Ajout');
                 $this->tpl->assign('uneCommande', $valeurs);
                 $this->tpl->assign('listeProduits', $valeursProduits);
+                $this->tpl->assign('quantite', $_SESSION['panier']['quantite']);
                 $this->tpl->display('mod_commande/vue/commandeFicheAjouterVue.tpl');
                 break;
             case 'form_modifier':
@@ -56,6 +58,15 @@ class CommandeVue
                 break;
         }
 
+    }
 
+    public function genererAffichagePanier()
+    {
+        $this->chargementValeurs();
+
+        $this->tpl->assign('action', 'consulter');
+        $this->tpl->assign('titrePage', 'Panier');
+        $this->tpl->assign('lignes', $_SESSION['panier']['ligne']);
+        $this->tpl->display('mod_commande/vue/panierFicheVue.tpl');
     }
 }
