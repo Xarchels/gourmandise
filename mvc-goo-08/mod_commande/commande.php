@@ -53,6 +53,12 @@ class Commande
                 case 'panier':
                     $this->oControleur->form_panier();
                     break;
+                case 'supprimer_ligne':
+                    $this->oControleur->supprimerLigne();
+                    break;
+                case 'modifier_ligne':
+                    $this->oControleur->modifierLigne();
+                    break;
             }
         } else {
             $this->oControleur->lister();

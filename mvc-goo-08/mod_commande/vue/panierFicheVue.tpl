@@ -59,7 +59,7 @@
         <div class="col-sm-4">
             <div class="page-header float-left">
                 <div class="page-title">
-                    <h1>Gourmandise...</h1>
+                    <h1>La gourmandise, ça se partage !</h1>
                 </div>
             </div>
         </div>
@@ -93,7 +93,8 @@
 
                     <div class="card-body">
                         <div class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer">
-                            <table id="bootstrap-data-table" class="table table-striped table-bordered">
+                            <table {if $lignes != null} id="bootstrap-data-table" {/if}
+                                    class="table table-striped table-bordered">
                                 <thead>
                                 <tr>
                                     <th>Référence</th>
@@ -144,12 +145,25 @@
                                     </tr>
                                     {foreachelse}
                                     <tr>
-                                        <td colspan="7">
-                                            Aucun enregistrement trouvé
+                                        <td colspan="8">
+                                            Votre panier est vide.
                                         </td>
                                     </tr>
                                 {/foreach}
                                 </tbody>
+                                <tfoot>
+                                <tr>
+                                    <td colspan="2">
+                                        Montant de la commande : <strong>{$commande->getTotal_ht()} €</strong>
+                                    </td>
+                                    <td colspan="3">
+                                        Total TVA : <strong>{$commande->getTotal_tva()} €</strong>
+                                    </td>
+                                    <td colspan="3" style="color: #06c; text-align: center;">
+                                        Marge brute : <strong>{$commande->getMarge()} €</strong>
+                                    </td>
+                                </tr>
+                                </tfoot>
                             </table>
 
                         </div>
@@ -160,8 +174,11 @@
                                    onclick="location.href ='index.php?gestion=commande&action=form_ajouter'">
                         </div>
                         <div class="col-md-6">
-                            <input type="button" class="btn btn-submit float-right" name="btn_retour" value="Enregistrer la commande"
-                                   onclick="location.href ='index.php?gestion=commande&action=form_enregistrer'">
+                            {if $lignes != null}
+                                <input type="button" class="btn btn-submit float-right" name="btn_retour"
+                                       value="Enregistrer la commande"
+                                       onclick="location.href ='index.php?gestion=commande&action=form_enregistrer'">
+                            {/if}
                         </div>
 
                     </div>

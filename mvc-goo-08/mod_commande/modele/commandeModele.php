@@ -177,7 +177,7 @@ class CommandeModele extends Modele
             }
         }
     }
-//
+
 //    public function deleteClient()
 //    {
 //        $sql = "DELETE FROM client WHERE codec = ?";

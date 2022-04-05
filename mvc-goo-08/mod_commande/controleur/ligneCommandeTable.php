@@ -128,7 +128,7 @@ class LigneCommandeTable
      */
     public function setPrix_ht($prix_ht): void
     {
-        $this->prix_ht = $prix_ht;
+        $this->prix_ht = number_format($prix_ht,2);
     }
 
     /**
@@ -144,7 +144,7 @@ class LigneCommandeTable
      */
     public function setPrix($prix)
     {
-        $this->prix = $prix;
+        $this->prix = number_format($prix,2);
     }
 
     /**

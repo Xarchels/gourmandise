@@ -17,6 +17,7 @@ class CommandeTable
     private $vendeurNom = "";
     private $vendeurPrenom = "";
     private $listeLigneCommande = [];
+    private $marge = 0;
 
     private $autorisationBD = true;
 
@@ -149,7 +150,7 @@ class CommandeTable
      */
     public function setTotal_tva(string $total_tva)
     {
-        $this->total_tva = $total_tva;
+        $this->total_tva = number_format($total_tva, 2);
     }
 
     /**
@@ -250,6 +251,22 @@ class CommandeTable
     public function setListeLigneCommande($listeLigneCommande): void
     {
         $this->listeLigneCommande = $listeLigneCommande;
+    }
+
+    /**
+     * @return
+     */
+    public function getMarge()
+    {
+        return $this->marge;
+    }
+
+    /**
+     * @param $marge
+     */
+    public function setMarge($marge): void
+    {
+        $this->marge = $marge;
     }
 
     /**

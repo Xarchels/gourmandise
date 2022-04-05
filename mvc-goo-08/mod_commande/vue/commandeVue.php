@@ -67,6 +67,7 @@ class CommandeVue
         $this->tpl->assign('action', 'consulter');
         $this->tpl->assign('titrePage', 'Panier');
         $this->tpl->assign('lignes', $_SESSION['panier']['ligne']);
+        $this->tpl->assign('commande', $_SESSION['panier']['commande']);
         $this->tpl->display('mod_commande/vue/panierFicheVue.tpl');
     }
 }
